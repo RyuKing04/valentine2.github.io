@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Valentine</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+    <style>
+        body { text-align: center; font-family: 'Arial', sans-serif; background-color: #ffe6f2; }
+        .swiper { width: 80%; height: 300px; margin: auto; margin-top: 20px; }
+        .swiper-slide { display: flex; justify-content: center; align-items: center; }
+        .swiper-slide img, .swiper-slide video { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 15px; }
+        .flowers { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+        .flower { position: absolute; width: 30px; height: 30px; opacity: 0.8; transition: transform 3s ease-in-out; }
+        .final-message { font-size: 24px; margin-top: 50px; display: flex; flex-direction: column; align-items: center; }
+        .buttons { margin-top: 20px; position: relative; }
+        .yes, .no { padding: 10px 20px; font-size: 18px; cursor: pointer; }
+        .no { position: absolute; transition: all 0.3s ease; }
+        .bouquet { position: absolute; bottom: 10%; left: 50%; transform: translateX(-50%); width: 200px; height: 250px; display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end; }
+        .flower-bouquet { position: absolute; font-size: 30px; transition: transform 0.5s ease-in-out; }
+    </style>
+</head>
+<body>
+    <h1>Ashley 💖</h1>
+    
+    <!-- Carrusel de imágenes -->
+    <div class="swiper">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="ash1.jpg" alt="Imagen 1"></div>
+            <div class="swiper-slide"><img src="ash2.jpeg" alt="Imagen 2"></div>
+            <div class="swiper-slide"><video src="video4.mp4" alt="Imagen 3" controls></video></div>
+            <div class="swiper-slide"><video src="ash3.mp4" alt="Imagen 4" controls></video></div>
+
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+    
+    <!-- Contenedor de flores -->
+    <div class="flowers"></div>
+    <div class="bouquet"></div>
+    
+    <audio id="music" src="utomp3.com - COSAS QUE NO TE DIJE  SAIKO LETRA.mp3" autoplay loop></audio>
+    <p>En mi tablero falta reina, no tengo castillo<br>
+        Pero puedes quedarte en mi casa cuando quieras<br>
+        Solo júrame que tú no serás pasajera<br>
+        Y antes de que te fueras</p>
+    <!-- Mensaje final -->
+    <div class="final-message" id="finalMessage">
+        <h2>¿Quieres ser mi Valentine? 💘</h2>
+        
+        <div class="buttons">
+            <button class="yes" onclick="alert('¡Sabía que dirías que sí! 💖')">Sí</button>
+            <button class="no" onmouseover="moveNoButton()">No</button>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <script>
+        // Inicializar el carrusel
+        new Swiper('.swiper', { pagination: { el: '.swiper-pagination', clickable: true } });
+        
+        // Generar flores automáticamente
+        function createFlower() {
+            let flower = document.createElement('div');
+            flower.classList.add('flower');
+            flower.style.left = Math.random() * 100 + 'vw';
+            flower.style.top = '-10px';
+            flower.innerHTML = '🌸';
+            document.querySelector('.flowers').appendChild(flower);
+
+            setTimeout(() => {
+                flower.style.transform = `translateY(100vh)`;
+                flower.style.opacity = '0';
+            }, 100);
+
+            setTimeout(() => flower.remove(), 5000);
+        }
+
+        // Crear flores cada 700ms
+        setInterval(createFlower, 700);
+        
+        // Botón "No" que se escapa
+        function moveNoButton() {
+            let noButton = document.querySelector('.no');
+            noButton.style.left = Math.random() * 80 + 'vw';
+            noButton.style.top = Math.random() * 80 + 'vh';
+        }
+
+        // Generar ramo de flores
+        function createBouquet() {
+            let bouquet = document.querySelector('.bouquet');
+            let flowerEmojis = ['🌸', '🌺', '🌻', '🌹', '💐']; // Diferentes flores
+            
+            for (let i = 0; i < 10; i++) { // Generar 10 flores
+                let flower = document.createElement('div');
+                flower.classList.add('flower-bouquet');
+                flower.innerHTML = flowerEmojis[Math.floor(Math.random() * flowerEmojis.length)];
+                
+                let x = (Math.random() - 0.5) * 150; // Posición X aleatoria dentro del ramo
+                let y = Math.random() * -200; // Posición Y hacia arriba para darle forma
+                let rotation = (Math.random() - 0.5) * 40; // Inclinación aleatoria
+                
+                flower.style.transform = `translate(${x}px, ${y}px) rotate(${rotation}deg)`;
+                bouquet.appendChild(flower);
+            }
+        }
+
+        // Llamar a la función para generar el ramo al cargar la página
+        window.onload = createBouquet;
+    </script>
+</body>
+</html>
